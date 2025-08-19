@@ -316,6 +316,10 @@ def checkOverlap(newRect, rects, debug):
 
 def isOverlap(wordRect, rectangleList, debug):
 
+    if debug == True:
+        print(f"\nrectangle list: {rectangleList}")
+        print(f"list size: {len(rectangleList)}")
+
     # for each rectangle in the rectangle list
     for rect in rectangleList:
 
@@ -367,13 +371,14 @@ def wordCloudDraw(wordAmEntry, topWordsList, debug):
         # create random point and rectangle around word to accompany point, return the point and the rectangle coordinates
         point, wordRect = randomPoint(rectHeight, rectWidth, debug)
 
-        # while isOverlap returns true (happens when the new rectangle coordinates overlap with the old rectangles from the rectangle list)
+        # while is Overlap returns true (happens when the new rectangle coordinates overlap with the old rectangles from the rectangle list)
+        # is overlap needs to run through the entire list- if any return true, then:
         if isOverlap(wordRect, rectangleList, debug) == True:
              
             # create new random point plus rectangle
             point, wordRect = randomPoint(rectHeight, rectWidth, debug)
 
-        # when isOverlap is false:
+        # when is Overlap is false:
         else:
             
             # add the rectangle to the rectangle list                                  
