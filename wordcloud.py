@@ -274,66 +274,63 @@ def randomPoint(rectHeight, rectWidth, debug):
         return point, wordRect
 
 
-################################## CHECKS OVERLAP FUNCTION ##################################
+################################## IS OVERLAP HELPER FUNCTIONS ##################################
 
-def checkOverlap(newRect, rects, debug):
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def getX(self):
+        return self.x
+    def getY(self):
+        return self.y
+    def clone(self):
+        return Point(self.x, self.y)  # allows code that calls clone()
 
-    # if single rectangle passed, make it a list
-    if isinstance(rects, Rectangle):
-        rects = [rects]
+class Rect:
+    def __init__(self, x1, y1, x2, y2):
+        self.p1 = Point(x1, y1)
+        self.p2 = Point(x2, y2)
+    def getP1(self):
+        return self.p1
+    def getP2(self):
+        return self.p2
 
-    if debug == True:
-        print()
-        print(f"checking against {len(rects)} rectangles")
-
-    # finds the coordinates of the new rectangle 
-    R1p1x = newRect.getP1().getX()
-    R1p1y = newRect.getP1().getY()
-    R1p2x = newRect.getP2().getX()
-    R1p2y = newRect.getP2().getY()
-
-    for r in rects: 
-
-        if debug == True:
-            print(rects)
-
-        # find the coordinates of the rectangle in the rectangle list
-        R2p1x = r.getP1().getX()
-        R2p1y = r.getP1().getY()
-        R2p2x = r.getP2().getX()
-        R2p2y = r.getP2().getY()
-
-        # if the x coordinates of the new rectangle are between the x coordinates of the rectangle from the rectangle list and
-        # if the y coordinates of the new rectangle are between the y coordinates of the rectangle from the rectangle list:
-        if ((R2p1x <= R1p2x <= R2p2x) and (R2p1y <= R1p2y <= R2p2y)) or ((R2p1x <= R1p1x <= R2p2x) and (R2p1y <= R1p1y <= R2p2y)):
-            return True
-        
-    # if the coordinates do not overlap
-    return False
-
+def checkOverlap(newRect, r, debug):
+    #Returns True if newRect overlaps r. Touching edges do NOT count as overlap.
     
+    # normalize coordinates
+    Np1x, Np2x = sorted([newRect.getP1().getX(), newRect.getP2().getX()])
+    Np1y, Np2y = sorted([newRect.getP1().getY(), newRect.getP2().getY()])
+    Op1x, Op2x = sorted([r.getP1().getX(), r.getP2().getX()])
+    Op1y, Op2y = sorted([r.getP1().getY(), r.getP2().getY()])
+
+    # fully outside check (no overlap)
+    fully_outside = (Np2x <= Op1x or Np1x >= Op2x or Np2y <= Op1y or Np1y >= Op2y)
+
+    # fully inside check
+    fully_inside = (Np1x >= Op1x and Np2x <= Op2x and Np1y >= Op1y and Np2y <= Op2y)
+
+    if debug:
+        print(f"NewRect: ({Np1x},{Np1y}) to ({Np2x},{Np2y})")
+        print(f"ExistingRect: ({Op1x},{Op1y}) to ({Op2x},{Op2y})")
+        print(f"Fully outside? {fully_outside}")
+        print(f"Fully inside? {fully_inside}")
+
+    # True if overlaps or fully inside
+    return not fully_outside or fully_inside    
+
 ################################## IS OVERLAP FUNCTION ##################################
 
-def isOverlap(wordRect, rectangleList, debug):
-
-    if debug == True:
-        print(f"\nrectangle list: {rectangleList}")
-        print(f"list size: {len(rectangleList)}")
-
-    # for each rectangle in the rectangle list
-    for rect in rectangleList:
-
-        # if new rect overlaps with item in list:
-        if checkOverlap(wordRect, rect, debug) == True:
-
-            # return True to the function
-            return True 
-
-        # if does not overlap, run through the loop again
-
-    # if none of the items return True, return False to the function
-    return False
-         
+def isOverlap(wordRect, rectangleList, debug=False):
+    # Returns True if wordRect overlaps any rectangle in rectangleList.
+    
+    for idx, rect in enumerate(rectangleList, 1):
+        if debug:
+            print(f"Checking rectangle {idx}/{len(rectangleList)}")
+        if checkOverlap(wordRect, rect, debug):
+            return True  # overlap found
+    return False  # no overlaps
 
 ################################## WORD CLOUD DRAW FUNCTION ##################################
 
