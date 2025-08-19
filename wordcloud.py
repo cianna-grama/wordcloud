@@ -345,8 +345,12 @@ def wordCloudDraw(wordAmEntry, topWordsList, debug):
         textSize = int(60 - sizeSubtract)
 
         # create the size of the rectangle for the word based on the text size and amount of letters
-        rectHeight = int(textSize / len(word))
-        rectWidth = int(rectHeight * (len(word) / 1.4))
+        if len(word) <= 9:
+            rectHeight = int(textSize / len(word))
+            rectWidth = int(rectHeight * (len(word) / 1.4))
+        else:
+            rectHeight = int(textSize / len(word) * 1.2)
+            rectWidth = int(rectHeight * (len(word)) * 1.2)
 
         # create random point and rectangle around word to accompany point, return the point and the rectangle coordinates
         point, wordRect = randomPoint(rectHeight, rectWidth, debug)
@@ -410,7 +414,7 @@ def createWordCloud(win, titleText, makeCloudButton, txtfileInstructions, wordAm
 
 def main():
 
-    debug = True
+    debug = False
 
     # create the main screen and return neccessary values
     titleText, makeCloudButton, exitButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry = mainscreen()
