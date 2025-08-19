@@ -274,59 +274,47 @@ def randomPoint(rectHeight, rectWidth, debug):
         return point, wordRect
 
 
-################################## IS OVERLAP HELPER FUNCTIONS ##################################
+################################## CHECKS OVERLAP FUNCTION ##################################
 
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def getX(self):
-        return self.x
-    def getY(self):
-        return self.y
-    def clone(self):
-        return Point(self.x, self.y)  # allows code that calls clone()
+def checkOverlap(newRect, oldRect, debug):
 
-class Rect:
-    def __init__(self, x1, y1, x2, y2):
-        self.p1 = Point(x1, y1)
-        self.p2 = Point(x2, y2)
-    def getP1(self):
-        return self.p1
-    def getP2(self):
-        return self.p2
+    # normalize and assign coordinates to variables for both new and old rectangles
+    R1x1, R1x2 = sorted([newRect.getP1().getX(), newRect.getP2().getX()])
+    R1y1, R1y2 = sorted([newRect.getP1().getY(), newRect.getP2().getY()])
+    R2x1, R2x2 = sorted([oldRect.getP1().getX(), oldRect.getP2().getX()])
+    R2y1, R2y2 = sorted([oldRect.getP1().getY(), oldRect.getP2().getY()])
 
-def checkOverlap(newRect, r, debug=False):
-    # normalize coordinates
-    Np1x, Np2x = sorted([newRect.getP1().getX(), newRect.getP2().getX()])
-    Np1y, Np2y = sorted([newRect.getP1().getY(), newRect.getP2().getY()])
-    Op1x, Op2x = sorted([r.getP1().getX(), r.getP2().getX()])
-    Op1y, Op2y = sorted([r.getP1().getY(), r.getP2().getY()])
-
-    # check if rectangles overlap (touching edges does NOT count)
-    overlap_x = Np1x < Op2x and Np2x > Op1x
-    overlap_y = Np1y < Op2y and Np2y > Op1y
-    is_overlap = overlap_x and overlap_y
+    # all true or false based on if statements both statements are true or false 
+    # # if one is false, both return false    
+    overlapX = R1x1 < R2x2 and R1x2 > R2x1 # checks horizontal
+    overlapY = R1y1 < R2y2 and R1y2 > R2y1 # checks vertical
+    overlap = overlapX and overlapY # combines both
 
     if debug:
-        print(f"NewRect: ({Np1x},{Np1y}) to ({Np2x},{Np2y})")
-        print(f"ExistingRect: ({Op1x},{Op1y}) to ({Op2x},{Op2y})")
-        print(f"Overlap? {is_overlap}")
+        print(f"NewRect: ({R1x1},{R1y1}) to ({R1x2},{R1y2})")
+        print(f"ExistingRect: ({R2x1},{R2y1}) to ({R2x2},{R2y2})")
+        print(f"Overlap? {overlap}")
 
-    return is_overlap
-   
-
+    # returns the state of overlap - true or false
+    return overlap
+    
 ################################## IS OVERLAP FUNCTION ##################################
 
-def isOverlap(wordRect, rectangleList, debug=False):
-    # Returns True if wordRect overlaps any rectangle in rectangleList.
-    
-    for idx, rect in enumerate(rectangleList, 1):
-        if debug:
-            print(f"Checking rectangle {idx}/{len(rectangleList)}")
-        if checkOverlap(wordRect, rect, debug):
-            return True  # overlap found
-    return False  # no overlaps
+def isOverlap(wordRect, rectangleList, debug):
+
+    # for each rectangle in the rectangle list
+    for rect in rectangleList:
+
+        # if new rect overlaps with item in list:
+        if checkOverlap(wordRect, rect, debug) == True:
+
+            # return True to the function
+            return True 
+
+        # if does not overlap, run through the loop again
+
+    # if none of the items return True, return False to the function
+    return False
 
 ################################## WORD CLOUD DRAW FUNCTION ##################################
 
@@ -336,7 +324,6 @@ def wordCloudDraw(wordAmEntry, topWordsList, debug):
     amOfWords = int(wordAmEntry.getText())
 
     # create empty lists for used points and used rectangles
-    pointsList = []
     rectangleList = []
     
     # run following code as many times as there are words:
@@ -367,6 +354,9 @@ def wordCloudDraw(wordAmEntry, topWordsList, debug):
         # while is Overlap returns true (happens when the new rectangle coordinates overlap with the old rectangles from the rectangle list)
         # is overlap needs to run through the entire list- if any return true, then:
         while isOverlap(wordRect, rectangleList, debug) == True:
+
+            if debug == True:
+                wordRect.undraw()
              
             # create new random point plus rectangle
             point, wordRect = randomPoint(rectHeight, rectWidth, debug)
