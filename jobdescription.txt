@@ -1,0 +1,71 @@
+Software Engineering Summer 2024 Intern- Undergraduate Job Listing
+
+
+Key Skills
+.NET, Aartificial intelligence, C Programming, C# Programming, C++, CSS, Data Analysis, Data science techniques, Employee life cycle, GitLab, HTML, Java Programming, JavaScript, Jenkins, Planning and organization, SQL, Statistics, Swift
+
+Job Description
+Careers That Change Lives
+
+The possibilities at the intersection of medicine and technology are endless, which means endless opportunities to make your mark on the world. Our interns do real work within experienced engineering teams to improve lives of millions. Engineering roles in the Software engineering group can include Software, Software Cloud, Software Quality, Software Dev Ops, Software Systems, Software Test, Hardware, and Firmware engineers, examples of work in each of these areas are listed below.
+
+Software Engineer
+
+Designs, develops, tests, debugs and implements operating systems components, software tools and utilities.
+Determines systems software design requirements.
+Software Cloud Engineer
+
+Supports development and execution of the organization’s cloud strategy from a technical perspective, including design, planning, integration, maintenance and support of cloud architecture.
+Works with stakeholders across the organization to evaluate cloud systems and identify appropriate solutions.
+Software Quality Engineer
+
+Develops, modifies, applies, and maintains standards for software systems quality operating methods, processes, and procedures.
+Conducts evaluation of software systems activities including requirements, design, development, documentation, integration, test, verification and validation.
+Software Dev Ops Engineer
+
+Introduces and maintains processes, tools, and methodologies to balance needs throughout the software development life cycle.
+Conducting requirements gathering and analysis to understand the domain of the software problem and/or functionality, the interfaces between hardware and software, and the overall software characteristics.
+Software Systems Engineer
+
+Develops software and tools in support of design, infrastructure, and technology platforms, including operating systems, cloud-based and Internet-related tools.
+Designs, develops, troubleshoots, and debugs software programs for enhancements and maximize new products.
+Software Test Engineer
+
+Tests the functionality and performance of software applications or systems software.
+Develops and executes test plans and scripts designed to detect problems in software applications and systems software.
+Hardware Engineer
+
+Conducts research, design, development, and testing of electrical or mechanical hardware such as computer chips, circuit boards, mechanical and electrical components.
+Ensures reliability, develops technical specifications for production, analyzes hardware configuration and processing solutions, and tests hardware conformance to specifications; may design new or modify existing products
+Firmware Engineer
+
+Designs, develops, tests, documents, operates and maintains software and firmware components and computing systems software to be applied to and integrated with mechanical and electrical systems.
+Applies the appropriate standards, processes, procedures and tools throughout the system development life cycle to support the generation of such engineering applications and wide range of products.
+AI/Data Science Engineer
+
+.•In new product design roles: develops and programs integrated software algorithms to structure, analyze and leverage data in product and systems applications in both structured and unstructured environments.
+
+Develops and communicates descriptive, diagnostic, predictive and prescriptive insights/algorithm
+You have learned a lot to get here — we want you to keep growing. With our expanding portfolio of innovative products and services, Medtronic is the global leader in delivering healthcare solutions for over 70+ disease states in 150+ countries.
+
+Internships are full-time (40 hours/week), paid positions that are 11-12 weeks in length. We offer competitive pay, housing assistance (for out-of-state interns) with relocation expense reimbursement, a transportation stipend, and educational and social events throughout the summer. We have summer internship opportunities across the U.S., including positions in Minnesota, California, Colorado, Connecticut, Arizona, Massachusetts, Tennessee, and Florida. Must be located in the US during the entirety of the internship.
+
+Must Haves:
+
+To be considered for a summer 2024 engineering internship, you must meet the following basic requirements. How you meet these criteria must be clearly indicated on your resume to be considered for a position.
+
+Bachelor’s degree student with a sophomore or junior level class standing
+Working towards a bachelor’s degree in computer or software engineering, computer science or related engineering major
+Legally authorized to work in the U.S. on a full-time basis and does not require sponsorship in the future for an employment visa
+Participants must be able to participate full time (40 hours/week) as part of our intern cohort:
+o Dates: June 3 - August 16
+
+Nice to Haves:
+
+A minimum 3.0 out of a 4.0 cumulative GPA
+Knowledge of one or more of the following technologies: C, C++, C#/.NET, SQL, JavaScript, Java, Swift, HTML/CSS, Microsoft Visual Studio, Jenkins, Gitlab
+Prior work on projects in a team environment
+Relevant academic project, internship, or lab experience
+Experience in statistics and data analysis and/or Design for Reliability and Manufacturability (DRM)
+Technical writing skills
+Strong written and verbal communication skills who is self-motivated, proactive, and willing to learn
