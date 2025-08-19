@@ -276,10 +276,15 @@ def randomPoint(rectHeight, rectWidth, debug):
 
 ################################## CHECKS OVERLAP FUNCTION ##################################
 
-def checkOverlap(newRect, rect, debug):
+def checkOverlap(newRect, rects, debug):
+
+    # if single rectangle passed, make it a list
+    if isinstance(rects, Rectangle):
+        rects = [rects]
 
     if debug == True:
-        print(rect)
+        print()
+        print(f"checking against {len(rects)} rectangles")
 
     # finds the coordinates of the new rectangle 
     R1p1x = newRect.getP1().getX()
@@ -287,17 +292,22 @@ def checkOverlap(newRect, rect, debug):
     R1p2x = newRect.getP2().getX()
     R1p2y = newRect.getP2().getY()
 
-    # find the coordinates of the rectangle in the rectangle list
-    R2p1x = rect.getP1().getX()
-    R2p1y = rect.getP1().getY()
-    R2p2x = rect.getP2().getX()
-    R2p2y = rect.getP2().getY()
+    for r in rects: 
 
-    # if the x coordinates of the new rectangle are between the x coordinates of the rectangle from the rectangle list and
-    # if the y coordinates of the new rectangle are between the y coordinates of the rectangle from the rectangle list:
-    if ((R2p1x <= R1p2x <= R2p2x) and (R2p1y <= R1p2y <= R2p2y)) or ((R2p1x <= R1p1x <= R2p2x) and (R2p1y <= R1p1y <= R2p2y)):
-        return True
+        if debug == True:
+            print(rects)
 
+        # find the coordinates of the rectangle in the rectangle list
+        R2p1x = r.getP1().getX()
+        R2p1y = r.getP1().getY()
+        R2p2x = r.getP2().getX()
+        R2p2y = r.getP2().getY()
+
+        # if the x coordinates of the new rectangle are between the x coordinates of the rectangle from the rectangle list and
+        # if the y coordinates of the new rectangle are between the y coordinates of the rectangle from the rectangle list:
+        if ((R2p1x <= R1p2x <= R2p2x) and (R2p1y <= R1p2y <= R2p2y)) or ((R2p1x <= R1p1x <= R2p2x) and (R2p1y <= R1p1y <= R2p2y)):
+            return True
+        
     # if the coordinates do not overlap
     return False
 
