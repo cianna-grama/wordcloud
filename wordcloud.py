@@ -115,7 +115,7 @@ def mainscreen():
     txtfileInstructions = Text(Point(20, 75), "Enter the name of the txt file:")
     txtfileInstructions.draw(gui.win)
     
-    wordAmInstructions = Text(Point(20, 60), "Enter the amount of words:\n(10 - 20 for best results)")
+    wordAmInstructions = Text(Point(20, 60), "Enter the amount of words:\n(10 - 25 for best results)")
     wordAmInstructions.draw(gui.win)
 
     # create entry boxes and draw
