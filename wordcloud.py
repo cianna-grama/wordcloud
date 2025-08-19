@@ -8,6 +8,7 @@
 from graphics import *
 from random import *
 from time import *
+import re
 
 ################################## BUTTON CLASS ##################################
 class Button:
@@ -114,7 +115,7 @@ def mainscreen():
     txtfileInstructions = Text(Point(20, 75), "Enter the name of the txt file:")
     txtfileInstructions.draw(gui.win)
     
-    wordAmInstructions = Text(Point(20, 60), "Enter the amount of words:\n(10 - 40 for best results)")
+    wordAmInstructions = Text(Point(20, 60), "Enter the amount of words:\n(10 - 20 for best results)")
     wordAmInstructions.draw(gui.win)
 
     # create entry boxes and draw
@@ -138,28 +139,24 @@ def simplifyFile(file):
     # convert file to lowercase
     file = file.lower()
 
-    # remove punctuation
-    for character in "!\"#$%&()*+,-'./:;<=>?@'[\\]’_•":
-        file = file.replace(character, "")
+    # remove punctuation and numbers (keep only letters and spaces)
+    file = re.sub(r'[^a-z\s]', '', file)
+    
+    # remove stopwords
+    stopwords = open("stopwords.txt", "r").read().lower().split(",")
 
-    # remove numbers
-    for num in range(10):
-        file = file.replace(str(num), "")
-
-    # input stop words file, read, and lower stop words
-    stopWords = open("stopwords.txt", "r").read().lower()
-
-    # split stop words by commas
-    stopWords = stopWords.split(",")
-
-    # add spaces between both sides of the stopwords so letters are not taken out of words
-    for i in range(len(stopWords)):
-        stopWords[i] = stopWords[i] + " "
-
-    # remove stop words
-    for word in stopWords:
-        file = file.replace(word, " ")
-
+    # strip whitespace from stopwords
+    stopwords = [w.strip() for w in stopwords]
+    
+    # split file into words
+    words = file.split()
+    
+    # filter out stopwords and words with 3 letters or less
+    words = [w for w in words if w not in stopwords and len(w) > 3]
+    
+    # join back into a single string
+    file = ' '.join(words)
+    
     return file
 
 
@@ -195,9 +192,10 @@ def frequencyCounter(fileToCount, WordAmInput):
         
 ################################## FREQUENCY SORTER ##################################
 
-def frequencySorter(dictionary, WordAmInput):
-    
-# creating list of top _ words
+def frequencySorter(dictionary, WordAmInput, debug):
+# creating list of top used words
+
+    debug = True
 
     # get list of key-value pairs (using items method)
     itemslist = list(dictionary.items())
@@ -232,6 +230,8 @@ def frequencySorter(dictionary, WordAmInput):
         frequentWords.append(frequentItems[i])
 
     # return the list of the most frequent words only (in order) and not their values
+    if debug == True:
+        print(frequentWords)
     return frequentWords
 
 
@@ -253,6 +253,9 @@ def clearScreen(win, a, b, c, d, e, f):
 ################################## RANDOM COORDS AND RECTANGLE FUNCTION ##################################
 
 def randomPoint(rectHeight, rectWidth, debug):
+        
+        debug = True
+
         # set a random x and y value between the specified points
         randX = randrange(25, 75)
         randY = randrange(20, 90)
@@ -345,12 +348,15 @@ def wordCloudDraw(wordAmEntry, topWordsList, debug):
         textSize = int(60 - sizeSubtract)
 
         # create the size of the rectangle for the word based on the text size and amount of letters
-        if len(word) <= 9:
+        if len(word) <=5:
+            rectHeight = int(textSize / len(word))
+            rectWidth = int(rectHeight * (len(word)) / 2)
+        elif len(word) <= 9:
             rectHeight = int(textSize / len(word))
             rectWidth = int(rectHeight * (len(word) / 1.4))
         else:
             rectHeight = int(textSize / len(word) * 1.2)
-            rectWidth = int(rectHeight * (len(word)) * 1.2)
+            rectWidth = int(rectHeight * (len(word)))
 
         # create random point and rectangle around word to accompany point, return the point and the rectangle coordinates
         point, wordRect = randomPoint(rectHeight, rectWidth, debug)
@@ -401,7 +407,7 @@ def createWordCloud(win, titleText, makeCloudButton, txtfileInstructions, wordAm
     countdictionary = frequencyCounter(textFilemod, wordAmEntry)
 
     # find the top number of words (amount based on user input) and place them into a list in order of most to least frequent
-    topWordsList = frequencySorter(countdictionary, wordAmEntry)
+    topWordsList = frequencySorter(countdictionary, wordAmEntry, debug)
                       
     # clear the screen except exit button
     clearScreen(gui.win, titleText, makeCloudButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry)
@@ -414,7 +420,7 @@ def createWordCloud(win, titleText, makeCloudButton, txtfileInstructions, wordAm
 
 def main():
 
-    debug = False
+    debug = True
 
     # create the main screen and return neccessary values
     titleText, makeCloudButton, exitButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry = mainscreen()
