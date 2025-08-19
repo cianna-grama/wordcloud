@@ -252,7 +252,7 @@ def clearScreen(win, a, b, c, d, e, f):
 
 ################################## RANDOM COORDS AND RECTANGLE FUNCTION ##################################
 
-def randomPoint(rectHeight, rectWidth):
+def randomPoint(rectHeight, rectWidth, debug):
         # set a random x and y value between the specified points
         randX = randrange(25, 75)
         randY = randrange(20, 90)
@@ -268,18 +268,24 @@ def randomPoint(rectHeight, rectWidth):
 
         wordRect = Rectangle(Point(p1x, p1y), Point(p2x, p2y))
 
+        if debug == True:
+            wordRect.draw(gui.win)
+
         return point, wordRect
 
 
 ################################## CHECKS OVERLAP FUNCTION ##################################
 
-def checkOverlap(wordRect, rect):
+def checkOverlap(newRect, rect, debug):
+
+    if debug == True:
+        print(rect)
 
     # finds the coordinates of the new rectangle 
-    R1p1x = wordRect.getP1().getX()
-    R1p1y = wordRect.getP1().getY()
-    R1p2x = wordRect.getP2().getX()
-    R1p2y = wordRect.getP2().getY()
+    R1p1x = newRect.getP1().getX()
+    R1p1y = newRect.getP1().getY()
+    R1p2x = newRect.getP2().getX()
+    R1p2y = newRect.getP2().getY()
 
     # find the coordinates of the rectangle in the rectangle list
     R2p1x = rect.getP1().getX()
@@ -290,7 +296,6 @@ def checkOverlap(wordRect, rect):
     # if the x coordinates of the new rectangle are between the x coordinates of the rectangle from the rectangle list and
     # if the y coordinates of the new rectangle are between the y coordinates of the rectangle from the rectangle list:
     if ((R2p1x <= R1p2x <= R2p2x) and (R2p1y <= R1p2y <= R2p2y)) or ((R2p1x <= R1p1x <= R2p2x) and (R2p1y <= R1p1y <= R2p2y)):
-
         return True
 
     # if the coordinates do not overlap
@@ -299,13 +304,13 @@ def checkOverlap(wordRect, rect):
     
 ################################## IS OVERLAP FUNCTION ##################################
 
-def isOverlap(wordRect, rectangleList):
+def isOverlap(wordRect, rectangleList, debug):
 
     # for each rectangle in the rectangle list
     for rect in rectangleList:
 
         # if new rect overlaps with item in list:
-        if checkOverlap(wordRect, rect) == True:
+        if checkOverlap(wordRect, rect, debug) == True:
 
             # return True to the function
             return True 
@@ -318,7 +323,7 @@ def isOverlap(wordRect, rectangleList):
 
 ################################## WORD CLOUD DRAW FUNCTION ##################################
 
-def wordCloudDraw(wordAmEntry, topWordsList):
+def wordCloudDraw(wordAmEntry, topWordsList, debug):
 
     # get the amount of words that the user inputted and make it an integer
     amOfWords = int(wordAmEntry.getText())
@@ -350,13 +355,13 @@ def wordCloudDraw(wordAmEntry, topWordsList):
         rectWidth = int(rectHeight * (len(word) / 1.4))
 
         # create random point and rectangle around word to accompany point, return the point and the rectangle coordinates
-        point, wordRect = randomPoint(rectHeight, rectWidth)
+        point, wordRect = randomPoint(rectHeight, rectWidth, debug)
 
         # while isOverlap returns true (happens when the new rectangle coordinates overlap with the old rectangles from the rectangle list)
-        if isOverlap(wordRect, rectangleList) == True:
+        if isOverlap(wordRect, rectangleList, debug) == True:
              
             # create new random point plus rectangle
-            point, wordRect = randomPoint(rectHeight, rectWidth)
+            point, wordRect = randomPoint(rectHeight, rectWidth, debug)
 
         # when isOverlap is false:
         else:
@@ -379,7 +384,7 @@ def wordCloudDraw(wordAmEntry, topWordsList):
 
 ################################## SIMPLIZED CREATE CLOUD FUNCTION ##################################
 
-def createWordCloud(win, titleText, makeCloudButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry):
+def createWordCloud(win, titleText, makeCloudButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry, debug):
     
     # get the file name from the gui 
     filenameinput = txtfileEntry.getText()
@@ -400,12 +405,14 @@ def createWordCloud(win, titleText, makeCloudButton, txtfileInstructions, wordAm
     clearScreen(gui.win, titleText, makeCloudButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry)
         
     # draw up the word cloud
-    wordCloudDraw(wordAmEntry, topWordsList)
+    wordCloudDraw(wordAmEntry, topWordsList, debug)
 
 
 ################################## MAIN FUNCTION ##################################
 
 def main():
+
+    debug = True
 
     # create the main screen and return neccessary values
     titleText, makeCloudButton, exitButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry = mainscreen()
@@ -420,7 +427,7 @@ def main():
         if makeCloudButton.isClicked(pt):
 
             # create the word cloud (see function above for specific details)
-            createWordCloud(gui.win, titleText, makeCloudButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry)
+            createWordCloud(gui.win, titleText, makeCloudButton, txtfileInstructions, wordAmInstructions, txtfileEntry, wordAmEntry, debug)
 
         # if the make cloud button is not clicked get another mouse click
         pt = gui.win.getMouse()
