@@ -296,29 +296,25 @@ class Rect:
     def getP2(self):
         return self.p2
 
-def checkOverlap(newRect, r, debug):
-    #Returns True if newRect overlaps r. Touching edges do NOT count as overlap.
-    
+def checkOverlap(newRect, r, debug=False):
     # normalize coordinates
     Np1x, Np2x = sorted([newRect.getP1().getX(), newRect.getP2().getX()])
     Np1y, Np2y = sorted([newRect.getP1().getY(), newRect.getP2().getY()])
     Op1x, Op2x = sorted([r.getP1().getX(), r.getP2().getX()])
     Op1y, Op2y = sorted([r.getP1().getY(), r.getP2().getY()])
 
-    # fully outside check (no overlap)
-    fully_outside = (Np2x <= Op1x or Np1x >= Op2x or Np2y <= Op1y or Np1y >= Op2y)
-
-    # fully inside check
-    fully_inside = (Np1x >= Op1x and Np2x <= Op2x and Np1y >= Op1y and Np2y <= Op2y)
+    # check if rectangles overlap (touching edges does NOT count)
+    overlap_x = Np1x < Op2x and Np2x > Op1x
+    overlap_y = Np1y < Op2y and Np2y > Op1y
+    is_overlap = overlap_x and overlap_y
 
     if debug:
         print(f"NewRect: ({Np1x},{Np1y}) to ({Np2x},{Np2y})")
         print(f"ExistingRect: ({Op1x},{Op1y}) to ({Op2x},{Op2y})")
-        print(f"Fully outside? {fully_outside}")
-        print(f"Fully inside? {fully_inside}")
+        print(f"Overlap? {is_overlap}")
 
-    # True if overlaps or fully inside
-    return not fully_outside or fully_inside    
+    return is_overlap
+   
 
 ################################## IS OVERLAP FUNCTION ##################################
 
@@ -370,7 +366,7 @@ def wordCloudDraw(wordAmEntry, topWordsList, debug):
 
         # while is Overlap returns true (happens when the new rectangle coordinates overlap with the old rectangles from the rectangle list)
         # is overlap needs to run through the entire list- if any return true, then:
-        if isOverlap(wordRect, rectangleList, debug) == True:
+        while isOverlap(wordRect, rectangleList, debug) == True:
              
             # create new random point plus rectangle
             point, wordRect = randomPoint(rectHeight, rectWidth, debug)
